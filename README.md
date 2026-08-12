@@ -1,463 +1,430 @@
-# 🏝️ Hacker House Goa 2026 — Builder ID Card Generator (Backend)
+# 🏝️ Hacker House Goa 2026 — Builder ID Generator
 
-**Where code meets the coast. Ship products, not just hacks.**
+A web-based **Builder ID Card Generator** created for **Hacker House Goa 2026**.
 
-[![Node](https://img.shields.io/badge/Node.js-%3E%3D18.0.0-339933?logo=node.js&logoColor=white)](https://nodejs.org)
-[![Express](https://img.shields.io/badge/Express.js-4.x-000000?logo=express&logoColor=white)](https://expressjs.com)
-[![Sharp](https://img.shields.io/badge/Sharp-image%20processing-99CC00?logo=sharp&logoColor=white)](https://sharp.pixelplumbing.com)
-[![PDFKit](https://img.shields.io/badge/PDFKit-PDF%20generation-red)](http://pdfkit.org)
-[![License](https://img.shields.io/badge/License-MIT-blue)](#license)
+The application allows participants to enter their details, upload a profile photo, generate a personalized Builder ID card, preview the front and back designs, download the card as a PDF, and create a temporary shareable link.
 
-**Repository:** `HackerHouse_GOA`
-**Author / Backend Lead:** Akshat
-**Event:** Hacker House Goa 2026 · `#FRAMEINGOA` · `#BUILDINPARADISE`
+> **Where code meets the coast. Ship products, not just hacks. 🌊**
 
 ---
 
-## 📖 Summary
+## ✨ Features
 
-This service is the API backend for the **HH Goa 2026 Builder ID Card Generator** — a mobile-first web app that lets every attendee generate their own double-sided, high-resolution "Builder ID" badge in seconds.
-
-The frontend (built by Prajusha) captures a photo, name, tech stack, and builder title, then hands off to this backend for everything that needs real image/PDF processing:
-
-- Fixing sideways/upside-down mobile camera photos and cropping them to a clean square
-- Generating a dynamic, on-brand neon QR code that points to `hhgoa.com`
-- Compiling the finished Front + Back card into a single print-ready, 2-page PDF
-- Producing a shareable link with proper OpenGraph/Twitter meta tags, so hitting **"Share on X"** unfurls a real image card in the timeline instead of a bare link
-
----
-
-## 🏗️ Architecture & Key Features
-
-| Feature | Details |
-|---|---|
-| **EXIF-safe photo processing** | `sharp().rotate()` reads the image's EXIF `Orientation` tag and auto-corrects it before cropping — fixes the classic "photo comes out sideways" mobile camera bug. |
-| **1:1 square crop** | Photos are cropped to **600×600px** using `cover` fit (centered), so any aspect ratio photo fills the badge photo slot cleanly with no letterboxing. |
-| **Dynamic neon QR codes** | Server-generates a QR PNG (via the `qrcode` package) styled with a neon mint foreground on a transparent background, pointing at `https://hhgoa.com` by default — matches the tropical/neon tech template aesthetic. |
-| **2-page edge-to-edge PDF** | `pdfkit` compiles Front + Back into a single PDF at **432 × 540pt** per page (a 4:5 ratio, matching the 1080×1350px Canva templates), images rendered with zero margin. |
-| **Ephemeral share links** | Card image buffers are cached in an in-memory `Map` keyed by an 8-character `cardId`, with a **2-hour TTL** and a background sweep every **15 minutes** that purges expired entries. |
-| **X (Twitter)-optimized unfurl page** | `GET /share/:cardId` renders a server-side HTML page with `og:image`, `twitter:card=summary_large_image`, and a direct tweet-intent link, so shared cards render as a large image preview on X. |
-| **Mobile-first upload handling** | `multer` memory storage (no disk writes) with a 10MB cap, accepting either a multipart file or a raw base64 string — covers both native camera-capture and drag/drop upload flows. |
-
-### Request flow at a glance
-
-```
- Frontend (Prajusha's UI)
-        │
-        ├─ POST /api/process-image      → cropped, upright square photo (base64)
-        ├─ POST /api/generate-qr        → neon QR PNG (base64)
-        │        (frontend composites photo + QR + text onto canvas templates)
-        │
-        ├─ POST /api/generate-pdf       → downloadable 2-page PDF
-        └─ POST /api/create-share-link  → { cardId, shareUrl }
-                     │
-                     ▼
-          GET /share/:cardId  ──►  X (Twitter) crawler reads OG tags
-                     │                        │
-                     ▼                        ▼
-          GET /api/card-image/:cardId  (og:image / twitter:image source)
-```
+* 🪪 Generate personalized Builder ID cards
+* 📸 Upload and process profile photos
+* 🔄 Automatically correct photo orientation using EXIF data
+* ✂️ Crop uploaded photos into a square format
+* 🎨 Hacker House Goa themed ID card design
+* 🔳 Generate dynamic QR codes
+* 👤 Add builder name, title, and technology stack
+* 👀 Preview front and back of the Builder ID
+* 📄 Download the completed ID as a 2-page PDF
+* 🔗 Generate temporary shareable Builder ID links
+* 𝕏 Share Builder ID cards on X/Twitter
+* 📱 Responsive and mobile-friendly interface
+* ⚡ Node.js and Express backend for image, QR, PDF, and sharing functionality
 
 ---
 
-## 📂 Folder & File Structure
+## 🛠️ Tech Stack
 
-```
-HackerHouse_GOA/
-├── server.js            # Express app — all routes, middleware, error handling
-├── package.json          # Dependencies & npm scripts
-├── .env                   # Local environment config (NOT committed — see .env.example)
-├── .env.example          # Template documenting required env vars
-├── .gitignore             # Should exclude node_modules/, .env
-└── README.md              # You are here
-```
+### Frontend
 
-> This backend is intentionally single-file (`server.js`) for simplicity during the hackathon build. If it grows, a natural next split is `routes/`, `services/` (sharp/pdfkit/qrcode logic), and `cache/` (share-link store).
+* HTML5
+* CSS3
+* JavaScript
+* Canvas API
+
+### Backend
+
+* Node.js
+* Express.js
+* Multer
+* Sharp
+* QRCode
+* PDFKit
+* UUID
+* CORS
+* Dotenv
+
+### Development & Deployment
+
+* Git & GitHub — Version control and collaboration
+* Vercel — Frontend deployment
+* Render — Backend deployment
 
 ---
 
-## ✅ Prerequisites
+## 🏗️ Project Architecture
 
-| Requirement | Version | Why |
-|---|---|---|
-| **Node.js** | `>=18.0.0` (LTS recommended) | `sharp` v0.33+ ships prebuilt binaries targeting modern Node ABI versions; Node 18+ avoids the fallback-to-source-build path that fails on many networks. |
-| **npm** | `>=9.x` (ships with Node 18) | Standard package management. |
-| A registered `.env` file | — | See below. |
+```text
+                         ┌─────────────────────┐
+                         │       USER          │
+                         │  Builder ID Form    │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │      FRONTEND       │
+                         │   HTML/CSS/JS       │
+                         │      /public        │
+                         └──────────┬──────────┘
+                                    │
+                              API Requests
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │       BACKEND       │
+                         │ Node.js + Express   │
+                         └──────────┬──────────┘
+                                    │
+              ┌─────────────────────┼─────────────────────┐
+              ▼                     ▼                     ▼
+         Image Processing       QR Generation        PDF Generation
+             Sharp                QRCode                PDFKit
+              │                     │                     │
+              └─────────────────────┼─────────────────────┘
+                                    ▼
+                         ┌─────────────────────┐
+                         │   Builder ID Card   │
+                         │   Preview / PDF     │
+                         │    / Share Link     │
+                         └─────────────────────┘
+```
 
-Check your version before installing:
+---
+
+## 📁 Project Structure
+
+```text
+hh-goa-builder-id/
+│
+├── public/
+│   ├── assets/
+│   │   ├── idcard-front.png
+│   │   ├── idcard-back.png
+│   │   ├── palm-left.svg
+│   │   ├── palm-right.svg
+│   │   └── waves.svg
+│   │
+│   ├── js/
+│   │   ├── apiService.js
+│   │   ├── app.js
+│   │   └── idCardRenderer.js
+│   │
+│   ├── index.html
+│   └── style.css
+│
+├── ui-reference/
+│   ├── assets/
+│   ├── index.html
+│   └── style.css
+│
+├── server.js
+├── serve-frontend.js
+├── package.json
+├── package-lock.json
+├── README.md
+├── .gitignore
+│
+└── .env
+```
+
+> **Note:** `.env` and `node_modules/` are intentionally excluded from GitHub using `.gitignore`.
+
+---
+
+## ⚙️ Requirements
+
+Before running the project locally, install:
+
+* **Node.js 18 or higher**
+* **npm**
+* **Git**
+
+Check your installed versions:
 
 ```bash
-node -v   # should print v18.x.x or higher
+node -v
 npm -v
+git --version
 ```
 
-### `.env` Configuration
+---
 
-Create a `.env` file in the project root (copy from `.env.example`):
+## 🚀 Run Locally
+
+### 1. Clone the repository
 
 ```bash
-cp .env.example .env
+git clone https://github.com/gitanjalischool/hh-goa-builder-id.git
 ```
 
-| Variable | Required | Description |
-|---|---|---|
-| `PORT` | No (defaults to `3000`) | Port the Express server listens on. |
-| `BASE_URL` | **Recommended in production** | The publicly reachable base URL of this deployed service, e.g. `https://hhgoa-backend.onrender.com` (no trailing slash). Used to build absolute `shareUrl` and `og:image` links. If omitted, it's derived per-request from the incoming `Host` header — fine for local dev, but **set this explicitly once deployed** so share links don't leak internal hostnames. |
+### 2. Open the project
+
+```bash
+cd hh-goa-builder-id
+```
+
+### 3. Install dependencies
+
+```bash
+npm install
+```
+
+### 4. Configure environment variables
+
+Create a `.env` file in the project root:
 
 ```env
-# .env
 PORT=3000
-BASE_URL=https://hhgoa-backend.onrender.com
+BASE_URL=http://localhost:3000
 ```
 
----
+Do **not** upload `.env` to GitHub.
 
-## 🚀 Quickstart & Installation
+### 5. Start the backend
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/<your-org>/HackerHouse_GOA.git
-cd HackerHouse_GOA
-
-# 2. Install dependencies
-npm install
-
-# 3. Set up environment variables
-cp .env.example .env
-# → edit .env and fill in PORT / BASE_URL as needed
-
-# 4. Start the server
 npm start
-
-# (Optional) run with auto-reload during development
-npm run dev
 ```
 
-On success, you should see:
+The backend runs on:
 
-```
-🏝️  HH Goa 2026 Builder ID backend running on port 3000
-    Base URL: (derived per-request from Host header)
+```text
+http://localhost:3000
 ```
 
-Verify it's alive:
+### 6. Start the frontend
+
+Open another terminal:
 
 ```bash
-curl http://localhost:3000/api/health
-# → {"status":"healthy","uptime":1.23,"cachedCards":0,"timestamp":"..."}
+npm run frontend
+```
+
+The frontend runs on:
+
+```text
+http://localhost:5000
+```
+
+Open the frontend in your browser:
+
+```text
+http://localhost:5000
 ```
 
 ---
 
-## 🛠️ Troubleshooting & Common Issues
+## 🔌 API Endpoints
 
-### 1. `npm warn EBADENGINE` — Node version mismatch
+| Method | Endpoint                  | Purpose                                 |
+| ------ | ------------------------- | --------------------------------------- |
+| `POST` | `/api/process-image`      | Processes and crops the uploaded photo  |
+| `POST` | `/api/generate-qr`        | Generates a QR code                     |
+| `POST` | `/api/generate-pdf`       | Generates the 2-page Builder ID PDF     |
+| `POST` | `/api/create-share-link`  | Creates a temporary shareable card link |
+| `GET`  | `/share/:cardId`          | Displays the share preview page         |
+| `GET`  | `/api/card-image/:cardId` | Returns the generated card image        |
+| `GET`  | `/api/health`             | Checks backend health                   |
 
-If you're on **Node 16**, you'll see an engine warning like:
+---
 
+## 🖼️ Image Processing
+
+The backend uses **Sharp** to process uploaded photos.
+
+The image processing pipeline:
+
+```text
+Uploaded Photo
+      ↓
+Read EXIF Orientation
+      ↓
+Correct Rotation
+      ↓
+Resize & Crop
+      ↓
+600 × 600 PNG
+      ↓
+Return Base64 Image
 ```
-npm warn EBADENGINE Unsupported engine {
-npm warn EBADENGINE   package: 'hhgoa-2026-builder-id-backend@2.0.0',
-npm warn EBADENGINE   required: { node: '>=18.0.0' },
-npm warn EBADENGINE   current: { node: 'v16.20.0', npm: '8.19.4' }
-npm warn EBADENGINE }
+
+This helps handle photos taken using mobile cameras where the image orientation may be stored in EXIF metadata.
+
+---
+
+## 🔳 QR Code Generation
+
+The backend uses the **QRCode** package to generate a dynamic QR code.
+
+By default, the QR code points to:
+
+```text
+https://hhgoa.com
 ```
 
-**Fix:** Upgrade Node via [nvm](https://github.com/nvm-sh/nvm):
+The QR code can also be generated for another URL through the API.
 
-```bash
-nvm install 18
-nvm use 18
+---
+
+## 📄 PDF Generation
+
+The generated front and back Builder ID images are combined into a single PDF.
+
+The resulting PDF contains:
+
+```text
+Page 1 → Front of Builder ID
+Page 2 → Back of Builder ID
 ```
 
-Running on Node 16 anyway *may* work for the pure-JS dependencies, but `sharp` prebuilt binaries are only reliably published for Node 18+, so image processing is the most likely thing to break.
+The PDF is generated server-side using **PDFKit**.
 
-### 2. `sharp` install fails / hangs on restricted networks (college Wi-Fi, corporate proxies)
+---
 
-`sharp` downloads a prebuilt native binary (`libvips`) during `npm install`. Campus/office networks that block binary downloads over HTTPS or intercept traffic via a proxy often cause this to hang or fail with `ETIMEDOUT` / `EAI_AGAIN` errors.
+## 🔗 Shareable Builder ID
 
-**Option A — Retry with a direct/mobile hotspot connection**, then reinstall:
+The application can create a temporary shareable Builder ID link.
 
-```bash
-rm -rf node_modules package-lock.json
+The process is:
+
+```text
+Generate ID
+     ↓
+Create Share Link
+     ↓
+Temporary Card ID
+     ↓
+Share URL
+     ↓
+Preview Page
+     ↓
+Share on X
+```
+
+The backend stores generated card images temporarily in memory.
+
+### Important
+
+Share links are **temporary** and are not permanent database records.
+
+They expire after the configured cache lifetime or when the backend restarts.
+
+This is suitable for the hackathon/demo use case.
+
+---
+
+## 🌐 Deployment
+
+### Frontend
+
+The frontend can be deployed using **Vercel**.
+
+The frontend files are located inside:
+
+```text
+/public
+```
+
+After deployment, the frontend should communicate with the deployed backend through the configured API URL.
+
+### Backend
+
+The Node.js/Express backend can be deployed using **Render**.
+
+Typical configuration:
+
+```text
+Build Command:
 npm install
+
+Start Command:
+npm start
 ```
 
-**Option B — Force a compatible platform build explicitly** (useful on flaky networks or when switching between machines with different OS/arch):
+The backend requires environment variables such as:
 
-```bash
-npm install --platform=linux --arch=x64 sharp
-# macOS Apple Silicon:
-npm install --platform=darwin --arch=arm64 sharp
+```env
+PORT=10000
+BASE_URL=https://your-backend-url.onrender.com
 ```
 
-**Option C — Point `sharp` at a mirror**, if your network blocks GitHub Releases directly:
+After deployment, verify the backend using:
 
-```bash
-npm install --sharp-libvips-binary-host=https://npmmirror.com/mirrors/sharp-libvips sharp
-```
-
-**Option D — Fallback to `jimp` (pure JavaScript, no native binary)**
-
-If `sharp` genuinely cannot be installed on your network (e.g., locked-down hackathon venue Wi-Fi with no way around it), swap it for [`jimp`](https://www.npmjs.com/package/jimp), which is pure JS and has zero native/binary dependencies:
-
-```bash
-npm uninstall sharp
-npm install jimp
-```
-
-Then replace the `sharp` pipeline in `/api/process-image` with the `jimp` equivalent:
-
-```js
-const Jimp = require('jimp');
-
-const image = await Jimp.read(inputBuffer);
-image.autoRotate(); // EXIF-based auto-rotation (async in some Jimp versions — check your installed API)
-image.cover(600, 600); // square crop, cover fit
-const processedBuffer = await image.getBufferAsync(Jimp.MIME_PNG);
-```
-
-> ⚠️ **Trade-off:** `jimp` is slower and has a smaller feature set than `sharp` (notably weaker HEIC support, which matters for iPhone camera uploads). Treat it as an emergency fallback for getting the demo running on-site, not a permanent swap — re-install `sharp` once you're back on a normal connection.
-
-### 3. `EADDRINUSE: address already in use :::3000`
-
-Another process is already bound to the port.
-
-```bash
-# Find and kill whatever's using port 3000
-lsof -i :3000
-kill -9 <PID>
-
-# ...or just run on a different port
-PORT=4000 npm start
-```
-
-### 4. CORS errors from the frontend (`blocked by CORS policy`)
-
-The backend only allows `localhost`, `*.vercel.app`, `*.netlify.app`, and `*.onrender.com` origins by default. If your frontend is deployed elsewhere, add its origin pattern to the `ALLOWED_ORIGIN_PATTERNS` array in `server.js`.
-
-### 5. Share link image doesn't unfurl on X
-
-- Confirm `BASE_URL` is set to your **public** deployed URL, not `localhost` — X's crawler can't reach your machine.
-- X caches link previews aggressively. Use the [Card Validator](https://cards-dev.twitter.com/validator) (or just post a fresh tweet-intent link with a new `cardId`) to force a re-fetch.
-- Card links expire after 2 hours (TTL) — a stale `cardId` will 404.
-
----
-
-## 📡 API Reference
-
-Base URL (local): `http://localhost:3000`
-
-### `POST /api/process-image`
-
-Auto-rotates (EXIF-safe) and square-crops an uploaded builder photo.
-
-**Request** — either:
-- `multipart/form-data` with a `photo` file field, **or**
-- `application/json`:
-
-```json
-{ "photoBase64": "data:image/jpeg;base64,/9j/4AAQSkZJRg..." }
-```
-
-**Response — `200 OK`**
-
-```json
-{
-  "success": true,
-  "base64Photo": "data:image/png;base64,iVBORw0KGgoAAAANSU..."
-}
-```
-
-| Status | Meaning |
-|---|---|
-| `400` | No `photo` file or `photoBase64` provided |
-| `413` | File exceeds the 10MB limit |
-
----
-
-### `POST /api/generate-qr`
-
-Generates a dark-mode/neon-styled QR code.
-
-**Request**
-
-```json
-{ "url": "https://hhgoa.com" }
-```
-*(`url` is optional — defaults to `https://hhgoa.com`)*
-
-**Response — `200 OK`**
-
-```json
-{
-  "success": true,
-  "qrCodeBase64": "data:image/png;base64,iVBORw0KGgoAAAANSU..."
-}
+```text
+https://your-backend-url.onrender.com/api/health
 ```
 
 ---
 
-### `POST /api/generate-pdf`
+## 🔐 Environment Variables
 
-Compiles the Front + Back card images into a 2-page, print-ready PDF and streams it back as a file download.
+The `.env` file should **never be committed to GitHub**.
 
-**Request**
+Example:
 
-```json
-{
-  "frontImageBase64": "data:image/png;base64,...",
-  "backImageBase64": "data:image/png;base64,...",
-  "filename": "HH_Goa_2026_Builder_ID.pdf"
-}
+```env
+PORT=3000
+BASE_URL=http://localhost:3000
 ```
 
-**Response — `200 OK`**
-Binary PDF stream.
+For production, configure environment variables directly in the hosting platform.
 
-| Header | Value |
-|---|---|
-| `Content-Type` | `application/pdf` |
-| `Content-Disposition` | `attachment; filename="HH_Goa_2026_Builder_ID.pdf"` |
+The project `.gitignore` contains:
 
-| Status | Meaning |
-|---|---|
-| `400` | Missing `frontImageBase64` or `backImageBase64` |
-
----
-
-### `POST /api/create-share-link`
-
-Caches the finished card images and returns a shareable link.
-
-**Request**
-
-```json
-{
-  "frontImageBase64": "data:image/png;base64,...",
-  "backImageBase64": "data:image/png;base64,..."
-}
-```
-
-**Response — `200 OK`**
-
-```json
-{
-  "success": true,
-  "cardId": "a1b2c3d4",
-  "shareUrl": "https://hhgoa-backend.onrender.com/share/a1b2c3d4"
-}
-```
-
-> ⏳ Cached entries expire after **2 hours** and are swept every **15 minutes**.
-
----
-
-### `GET /share/:cardId`
-
-Server-rendered HTML preview page with OpenGraph + Twitter Card meta tags, plus a "Share on X" button.
-
-| Meta tag | Value |
-|---|---|
-| `og:title` | `My HH Goa 2026 Builder ID Card!` |
-| `og:description` | `Check out my official double-sided Builder Badge for Hacker House Goa 2026. #FRAMEINGOA #BUILDINPARADISE` |
-| `og:image` | `/api/card-image/:cardId?side=front` |
-| `twitter:card` | `summary_large_image` |
-| `twitter:image` | `/api/card-image/:cardId?side=front` |
-
-| Status | Meaning |
-|---|---|
-| `200` | Renders the HTML preview page |
-| `404` | `cardId` not found or expired |
-
----
-
-### `GET /api/card-image/:cardId`
-
-Serves the raw PNG buffer for a cached card side. Used both by the preview page above and by X's link-unfurl crawler.
-
-**Query params**
-
-| Param | Values | Default |
-|---|---|---|
-| `side` | `front` \| `back` | `front` |
-
-**Response — `200 OK`**
-Raw `image/png` binary.
-
-| Status | Meaning |
-|---|---|
-| `400` | Invalid `side` value |
-| `404` | `cardId` not found or expired |
-
----
-
-### `GET /api/health`
-
-Liveness check for uptime monitors / deploy platforms.
-
-**Response — `200 OK`**
-
-```json
-{
-  "status": "healthy",
-  "uptime": 134.812,
-  "cachedCards": 3,
-  "timestamp": "2026-08-11T10:32:00.000Z"
-}
+```text
+node_modules/
+.env
+*.log
 ```
 
 ---
 
-## ☁️ Deployment
+## 🤝 Team Collaboration
 
-### Deploying on Render
+This project is maintained as a team project using GitHub.
 
-1. Push this repo to GitHub.
-2. In the Render dashboard: **New → Web Service**, connect the `HackerHouse_GOA` repo.
-3. Configure:
-   | Setting | Value |
-   |---|---|
-   | Build Command | `npm install` |
-   | Start Command | `npm start` |
-   | Node Version | `18` (set via `Environment` tab or a `.node-version` file) |
-4. Add environment variables under **Environment → Environment Variables**:
-   | Key | Value |
-   |---|---|
-   | `PORT` | `10000` *(Render injects its own `PORT` — read `process.env.PORT`, which the app already does)* |
-   | `BASE_URL` | `https://<your-service-name>.onrender.com` |
-5. Deploy. Render will build and boot the service; watch the logs for the `🏝️ HH Goa 2026 Builder ID backend running on port ...` line.
-6. Once live, hit `https://<your-service-name>.onrender.com/api/health` to confirm.
+### Developers
 
-> **Note:** Render's free tier spins down idle services. The in-memory share-link cache is wiped on every cold start/restart — acceptable for a 2-hour-TTL cache, but don't rely on links surviving a redeploy.
+| Developer             | Contribution                               |
+| --------------------- | ------------------------------------------ |
+| **Gitanjali Jain**    | Frontend Development & Project Integration |
+| **Akshat Shrisant**   | Backend Development & API Integration      |
+| **Prajusha Gangrade** | UI/UX Design & Frontend Development        |
 
-### Deploying on Railway
-
-1. Push this repo to GitHub.
-2. In Railway: **New Project → Deploy from GitHub repo**, select `HackerHouse_GOA`.
-3. Railway auto-detects Node.js and runs `npm install && npm start` by default — no build command changes needed.
-4. Under **Variables**, add:
-   | Key | Value |
-   |---|---|
-   | `BASE_URL` | `https://<your-service>.up.railway.app` |
-   *(`PORT` is injected automatically by Railway — the app already reads `process.env.PORT`.)*
-5. Under **Settings → Networking**, generate a public domain if one isn't assigned automatically.
-6. Redeploy, then verify via `/api/health`.
-
-### General deployment checklist
-
-- [ ] `BASE_URL` set to the **public** HTTPS URL (required for X link unfurls to work)
-- [ ] Node version pinned to `>=18` on the platform
-- [ ] CORS origin patterns updated if the frontend domain isn't `localhost`/Vercel/Netlify/Render
-- [ ] `.env` is **not** committed (confirm `.gitignore` includes it)
-- [ ] `/api/health` returns `200` post-deploy
+Team members collaborate through GitHub branches and pull requests to keep the `main` branch stable.
 
 ---
 
-## 📜 License
+## 🎯 Project Goal
 
-MIT © Akshat — Backend Lead, Hacker House Goa 2026
+The goal of this project is to provide Hacker House Goa 2026 participants with a simple and fast way to create personalized Builder ID cards.
+
+The application combines:
+
+* A responsive frontend
+* Photo processing
+* Dynamic QR generation
+* Canvas-based ID rendering
+* Server-side PDF generation
+* Temporary share links
+* Social sharing functionality
+
+into one complete Builder ID generation workflow.
 
 ---
 
-*Built for Hacker House Goa 2026 — where code meets the coast. Ship products, not just hacks.* 🌊
+## 🏝️ Hacker House Goa 2026
+
+Built for **Hacker House Goa 2026**.
+
+**#FRAMEINGOA**
+**#BUILDINPARADISE**
+
+---
+
+## 📄 License
+
+This project was created as a hackathon project for **Hacker House Goa 2026**.
