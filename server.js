@@ -20,6 +20,7 @@
 
 require('dotenv').config();
 
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
@@ -78,6 +79,9 @@ app.use(
 // JSON body parsing — generous limit since payloads carry base64 image data.
 app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ extended: true, limit: '25mb' }));
+
+// Serve static frontend files from public/ directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Multer — memory storage so we never touch disk for uploaded mobile photos.
 // 10MB cap keeps large HEIC/JPEG camera captures in check.
@@ -508,9 +512,11 @@ app.use((err, req, res, next) => {
 // ----------------------------------------------------------------------------
 // SERVER BOOTSTRAP
 // ----------------------------------------------------------------------------
-app.listen(PORT, () => {
-  console.log(`🏝️  HH Goa 2026 Builder ID backend running on port ${PORT}`);
-  console.log(`    Base URL: ${BASE_URL || '(derived per-request from Host header)'}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`🏝️  HH Goa 2026 Builder ID backend running on port ${PORT}`);
+    console.log(`    Base URL: ${BASE_URL || '(derived per-request from Host header)'}`);
+  });
+}
 
 module.exports = app;

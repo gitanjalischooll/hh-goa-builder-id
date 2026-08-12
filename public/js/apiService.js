@@ -3,7 +3,7 @@
  * Interacts directly with the backend APIs without modification.
  */
 
-const API_BASE = window.location.origin.includes('3000') ? '' : 'http://localhost:3000';
+const API_BASE = window.location.port === '5000' ? 'http://localhost:3000' : '';
 
 export class ApiService {
   /**
