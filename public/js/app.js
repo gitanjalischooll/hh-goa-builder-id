@@ -3,9 +3,6 @@
  * Handles state transitions, photo validation, API requests, canvas rendering, and X sharing.
  */
 
-import { ApiService } from './apiService.js';
-import { IDCardRenderer } from './idCardRenderer.js';
-
 // Application State
 const state = {
   step: 'welcome', // 'welcome' | 'info' | 'photo' | 'processing' | 'preview'

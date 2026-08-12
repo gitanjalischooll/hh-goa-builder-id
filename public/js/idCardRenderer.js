@@ -42,7 +42,7 @@ function roundRect(ctx, x, y, width, height, radius) {
   ctx.closePath();
 }
 
-export class IDCardRenderer {
+window.IDCardRenderer = class IDCardRenderer {
   /**
    * Renders the FRONT side of the ID Card.
    * Dynamic elements ONLY: User photo, User name, Builder title.

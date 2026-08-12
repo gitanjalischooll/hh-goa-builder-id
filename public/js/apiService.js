@@ -5,7 +5,7 @@
 
 const API_BASE = window.location.port === '5000' ? 'http://localhost:3000' : '';
 
-export class ApiService {
+window.ApiService = class ApiService {
   /**
    * Health check to ensure backend service is alive.
    */
@@ -28,12 +28,22 @@ export class ApiService {
    * @returns {Promise<{ success: boolean, base64Photo: string }>}
    */
   static async processImage(photoFile) {
-    const formData = new FormData();
-    formData.append('photo', photoFile);
+    let photoBase64;
+    if (typeof photoFile === 'string') {
+      photoBase64 = photoFile;
+    } else {
+      photoBase64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (err) => reject(err || new Error('Failed to read image file'));
+        reader.readAsDataURL(photoFile);
+      });
+    }
 
     const res = await fetch(`${API_BASE}/api/process-image`, {
       method: 'POST',
-      body: formData,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ photoBase64 }),
     });
 
     const data = await res.json();
