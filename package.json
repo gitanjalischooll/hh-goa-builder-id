@@ -1,0 +1,35 @@
+{
+  "name": "hhgoa-2026-builder-id-backend",
+  "version": "2.0.0",
+  "description": "Backend service for the Hacker House Goa 2026 Builder ID Card Generator — handles mobile photo processing, server-side QR generation, dual-page PDF assembly, and X (Twitter) share links with OpenGraph meta tags.",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "frontend": "node serve-frontend.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "multer": "^1.4.5-lts.1",
+    "sharp": "^0.33.4",
+    "pdfkit": "^0.15.0",
+    "qrcode": "^1.5.3",
+    "uuid": "^9.0.1",
+    "dotenv": "^16.4.5"
+  },
+  "keywords": [
+    "hhgoa",
+    "builder-id-card",
+    "hacker-house",
+    "express",
+    "sharp",
+    "pdfkit"
+  ],
+  "author": "Akshat — Backend Lead, HH Goa 2026",
+  "license": "MIT"
+}

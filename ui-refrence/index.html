@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A premium responsive event & hackathon website template with dark green theme, golden typography, and customizable showcase elements.">
+  <title>YOUR BRAND - YOUR MAIN HEADING</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Link stylesheet exactly as specified -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Decorative Canvas Overlay -->
+  <div class="bg-pattern-overlay" aria-hidden="true"></div>
+
+  <!-- NAVBAR -->
+  <header class="navbar-header">
+    <nav class="navbar container">
+      <!-- Logo -->
+      <a href="#" class="brand-logo">
+        <span class="logo-title">YOUR BRAND</span>
+        <span class="logo-subtitle">TAGLINE</span>
+      </a>
+
+      <!-- Mobile Hamburger Toggle (Pure CSS) -->
+      <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Toggle Navigation Menu">
+      <label for="nav-toggle" class="nav-toggle-label">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+
+      <!-- Nav Menu -->
+      <ul class="nav-menu">
+        <li><a href="#features" class="nav-link">FEATURE SHOWCASE</a></li>
+        <li><a href="#how-it-works" class="nav-link">HOW IT WORKS</a></li>
+        <li><a href="#faq" class="nav-link">FAQ</a></li>
+        <li class="mobile-cta-item">
+          <a href="#hero" class="btn btn-pink btn-nav">MAKE YOURS</a>
+        </li>
+      </ul>
+
+      <!-- Desktop Header CTA -->
+      <a href="#hero" class="btn btn-pink btn-nav desktop-cta">MAKE YOURS</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero-section">
+      <!-- Decorative Side Palm Illustrations -->
+      <img src="assets/palm-left.svg" alt="" class="hero-palm palm-left" aria-hidden="true">
+      <img src="assets/palm-right.svg" alt="" class="hero-palm palm-right" aria-hidden="true">
+
+      <div class="container hero-content">
+        <!-- Main Gold Header -->
+        <h1 class="hero-title">YOUR MAIN HEADING</h1>
+        <p class="hero-subtitle">YOUR SUBTITLE &amp; FEATURE TITLE</p>
+
+        <!-- Description -->
+        <p class="hero-description">
+          YOUR DESCRIPTION — A free tool that turns any photo into a profile frame, a builder ID card, or a combined team frame. Everything is drawn in your browser, so nothing is uploaded and there is no account to make.
+        </p>
+
+        <!-- Event / Location Metadata Badges -->
+        <div class="hero-meta">
+          <span class="meta-item">LOCATION, COUNTRY</span>
+          <span class="meta-dot">•</span>
+          <span class="meta-item">DATE – RANGE 2026</span>
+          <span class="meta-dot">•</span>
+          <span class="meta-item">247 SEATS</span>
+        </div>
+
+        <!-- Primary Pink CTA -->
+        <div class="hero-action">
+          <a href="#features" class="btn btn-pink btn-hero">
+            CREATE YOUR FRAME <span class="btn-arrow">→</span>
+          </a>
+          <div class="hero-trust-badge">
+            <span class="lock-icon">🔒</span> 100% PRIVATE • ALL IN YOUR BROWSER
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE / SHOWCASE CARDS SECTION -->
+    <section id="features" class="features-section">
+      <div class="container">
+        <div class="feature-grid">
+          
+          <!-- Card 01 -->
+          <div class="feature-card">
+            <div class="card-preview pfp-preview">
+              <div class="mockup-frame">
+                <div class="frame-circle-outer">
+                  <div class="frame-circle-inner">
+                    <span class="frame-avatar-icon">👤</span>
+                  </div>
+                  <div class="frame-text-curved">YOUR BRAND GOA 2026</div>
+                </div>
+                <div class="mockup-tag">#FRAMEGOA</div>
+              </div>
+            </div>
+            <h3 class="card-label">FEATURE 01</h3>
+          </div>
+
+          <!-- Card 02 -->
+          <div class="feature-card">
+            <div class="card-preview id-preview">
+              <div class="mockup-id-card">
+                <div class="id-card-header">YOUR BRAND 2026</div>
+                <div class="id-card-title">BUILDER ID</div>
+                <div class="id-card-body">
+                  <div class="id-avatar">
+                    <span class="avatar-img">👩‍💻</span>
+                  </div>
+                  <div class="id-details">
+                    <div class="id-row">
+                      <span class="id-key">NAME</span>
+                      <span class="id-val">BUILDER NAME</span>
+                    </div>
+                    <div class="id-row">
+                      <span class="id-key">STACK</span>
+                      <span class="id-val">WEB DEVELOPER</span>
+                    </div>
+                    <div class="id-row">
+                      <span class="id-key">BUILDER CLASS</span>
+                      <span class="id-val">FULL STACK</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="id-card-footer">
+                  <div class="id-qr">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="#f5ce38">
+                      <path d="M2,2H10V10H2V2M4,4V8H8V4H4M14,2H22V10H14V2M16,4V8H20V4H16M2,14H10V22H2V14M4,16V20H8V16H4M14,14H16V16H14V14M18,14H20V16H18V14M20,16H22V18H20V16M14,18H16V20H14V18M16,20H18V22H16V20M18,18H20V20H18V18M20,20H22V22H20V20Z"/>
+                    </svg>
+                  </div>
+                  <span class="id-tag">#FRAMEGOA</span>
+                </div>
+              </div>
+            </div>
+            <h3 class="card-label">FEATURE 02</h3>
+          </div>
+
+          <!-- Card 03 -->
+          <div class="feature-card">
+            <div class="card-preview team-preview">
+              <div class="mockup-team-card">
+                <div class="team-header">YOUR BRAND</div>
+                <div class="team-avatars">
+                  <div class="team-avatar-circle">
+                    <span>👨‍💻</span>
+                  </div>
+                  <div class="team-avatar-circle active">
+                    <span>👩‍💻</span>
+                  </div>
+                  <div class="team-avatar-circle">
+                    <span>🧑‍💻</span>
+                  </div>
+                </div>
+                <div class="team-footer">#FRAMEGOA</div>
+              </div>
+            </div>
+            <h3 class="card-label">FEATURE 03</h3>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS SECTION -->
+    <section id="how-it-works" class="how-it-works-section">
+      <div class="container">
+        <!-- Section Header with Waves -->
+        <div class="section-title-wrapper">
+          <img src="assets/waves.svg" alt="" class="title-wave wave-left" aria-hidden="true">
+          <h2 class="section-title">HOW TO MAKE YOUR OWN #TAG POST</h2>
+          <img src="assets/waves.svg" alt="" class="title-wave wave-right" aria-hidden="true">
+        </div>
+
+        <!-- 5 Steps Grid -->
+        <div class="steps-grid">
+          
+          <!-- Step 1 -->
+          <div class="step-card">
+            <div class="step-badge">1</div>
+            <div class="step-icon-wrapper">
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+            </div>
+            <h3 class="step-title">STEP 01</h3>
+            <p class="step-desc">
+              Open the app link and upload a photo, or tap Selfie and take one. JPG, PNG, and WebP work straight from any device.
+            </p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="step-card">
+            <div class="step-badge">2</div>
+            <div class="step-icon-wrapper">
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7" rx="1"/>
+                <rect x="14" y="3" width="7" height="7" rx="1"/>
+                <rect x="14" y="14" width="7" height="7" rx="1"/>
+                <rect x="3" y="14" width="7" height="7" rx="1"/>
+              </svg>
+            </div>
+            <h3 class="step-title">STEP 02</h3>
+            <p class="step-desc">
+              Pick a format: PFP frame for your profile picture, Builder ID for a pass with your name and stack, or Team frame.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="step-card">
+            <div class="step-badge">3</div>
+            <div class="step-icon-wrapper">
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"/>
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+              </svg>
+            </div>
+            <h3 class="step-title">STEP 03</h3>
+            <p class="step-desc">
+              Type your name and your stack. A builder class is suggested from what you typed, and you can easily edit it.
+            </p>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="step-card">
+            <div class="step-badge">4</div>
+            <div class="step-icon-wrapper">
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2v14a2 2 0 0 0 2 2h14"/>
+                <path d="M18 22V8a2 2 0 0 0-2-2H2"/>
+              </svg>
+            </div>
+            <h3 class="step-title">STEP 04</h3>
+            <p class="step-desc">
+              Drag to reframe, pinch or scroll to zoom, and choose a finish:
+            </p>
+            <div class="option-pills">
+              <span class="pill-btn">OPTION A</span>
+              <span class="pill-btn">OPTION B</span>
+              <span class="pill-btn">OPTION C</span>
+            </div>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="step-card">
+            <div class="step-badge">5</div>
+            <div class="step-icon-wrapper">
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                <polyline points="16 6 12 2 8 6"/>
+                <line x1="12" y1="2" x2="12" y2="15"/>
+              </svg>
+            </div>
+            <h3 class="step-title">STEP 05</h3>
+            <p class="step-desc">
+              Hit Share. On a phone the image and caption go straight into your chosen app. On desktop, copy directly to clipboard.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ SECTION (Using native HTML details & summary) -->
+    <section id="faq" class="faq-section">
+      <div class="container">
+        <!-- Section Header with Waves -->
+        <div class="section-title-wrapper">
+          <img src="assets/waves.svg" alt="" class="title-wave wave-left" aria-hidden="true">
+          <h2 class="section-title">QUESTIONS</h2>
+          <img src="assets/waves.svg" alt="" class="title-wave wave-right" aria-hidden="true">
+        </div>
+
+        <!-- 6 Questions Grid (2 Columns) -->
+        <div class="faq-grid">
+          
+          <!-- FAQ 01 -->
+          <details class="faq-card" open>
+            <summary class="faq-summary">
+              <div class="faq-icon-circle">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
+                </svg>
+              </div>
+              <span class="faq-question">QUESTION 01: Do I need an account?</span>
+              <span class="faq-chevron" aria-hidden="true">▼</span>
+            </summary>
+            <div class="faq-answer">
+              No. There is no login, no signup, and no email field anywhere in the flow. You can use all features instantly in your browser.
+            </div>
+          </details>
+
+          <!-- FAQ 02 -->
+          <details class="faq-card">
+            <summary class="faq-summary">
+              <div class="faq-icon-circle">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M7 21v-2a4 4 0 0 1 3-3.87"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                  <circle cx="16" cy="11" r="3"/>
+                </svg>
+              </div>
+              <span class="faq-question">QUESTION 02: Can I put my whole team in one frame?</span>
+              <span class="faq-chevron" aria-hidden="true">▼</span>
+            </summary>
+            <div class="faq-answer">
+              Yes. The Team frame takes one to three builders, each with their own photo, stack, and builder class in a single graphic.
+            </div>
+          </details>
+
+          <!-- FAQ 03 -->
+          <details class="faq-card">
+            <summary class="faq-summary">
+              <div class="faq-icon-circle">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </div>
+              <span class="faq-question">QUESTION 03: Is my photo uploaded anywhere?</span>
+              <span class="faq-chevron" aria-hidden="true">▼</span>
+            </summary>
+            <div class="faq-answer">
+              No. Every frame is rendered on your own client device. Sharing from a phone hands the finished image straight to your app choice.
+            </div>
+          </details>
+
+          <!-- FAQ 04 -->
+          <details class="faq-card">
+            <summary class="faq-summary">
+              <div class="faq-icon-circle">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="6" width="20" height="12" rx="2"/>
+                  <path d="M12 12h.01"/>
+                  <path d="M17 12h.01"/>
+                  <path d="M7 12h.01"/>
+                </svg>
+              </div>
+              <span class="faq-question">QUESTION 04: Does the ID card give me a seat?</span>
+              <span class="faq-chevron" aria-hidden="true">▼</span>
+            </summary>
+            <div class="faq-answer">
+              No, and it does not pretend to. There is no seat number on the graphic because a tool anyone can run cannot award official residency.
+            </div>
+          </details>
+
+          <!-- FAQ 05 -->
+          <details class="faq-card">
+            <summary class="faq-summary">
+              <div class="faq-icon-circle">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                  <line x1="12" y1="18" x2="12.01" y2="18"/>
+                </svg>
+              </div>
+              <span class="faq-question">QUESTION 05: Does it work on a phone?</span>
+              <span class="faq-chevron" aria-hidden="true">▼</span>
+            </summary>
+            <div class="faq-answer">
+              Yes, and that is the shortest route. Take a selfie, frame it, share it, all without leaving your browser or installing extra software.
+            </div>
+          </details>
+
+          <!-- FAQ 06 -->
+          <details class="faq-card">
+            <summary class="faq-summary">
+              <div class="faq-icon-circle">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+              </div>
+              <span class="faq-question">QUESTION 06: When and where is the main event?</span>
+              <span class="faq-chevron" aria-hidden="true">▼</span>
+            </summary>
+            <div class="faq-answer">
+              LOCATION, COUNTRY • DATE – RANGE 2026. Four days, 247 seats. Full details available on your website domain.
+            </div>
+          </details>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      
+      <!-- Brand & Tagline -->
+      <div class="footer-brand">
+        <a href="#" class="brand-logo">
+          <span class="logo-title">YOUR BRAND</span>
+          <span class="logo-subtitle">TAGLINE</span>
+        </a>
+        <div class="footer-tagline">
+          <span class="tag-highlight">#TAGLINE</span> LESS NOISE. MORE SIGNAL.
+        </div>
+      </div>
+
+      <!-- Social Links -->
+      <div class="footer-socials">
+        <span class="social-label">FOLLOW US</span>
+        <div class="social-icons">
+          <!-- X (Twitter) -->
+          <a href="#" class="social-link" aria-label="X (Twitter)">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+          <!-- Instagram -->
+          <a href="#" class="social-link" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </a>
+          <!-- Discord -->
+          <a href="#" class="social-link" aria-label="Discord">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.893.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+            </svg>
+          </a>
+          <!-- YouTube -->
+          <a href="#" class="social-link" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Info / About -->
+      <div class="footer-links">
+        <span class="footer-info-title">ABOUT YOUR BRAND</span>
+        <a href="#" class="footer-url">yourdomain.com</a>
+        <p class="copyright-text">© 2026 YOUR BRAND. All rights reserved.</p>
+      </div>
+
+    </div>
+  </footer>
+
+</body>
+</html>

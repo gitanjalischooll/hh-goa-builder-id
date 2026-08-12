@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Claim your official Builder ID Badge for Hacker House Goa 2026. High-resolution double-sided delegate pass. #FrameInGOA">
+  <title>Hacker House Goa 2026 — Builder ID Card Generator</title>
+  
+  <!-- Fonts: Cinzel & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Decorative Canvas Overlay -->
+  <div class="bg-pattern-overlay" aria-hidden="true"></div>
+
+  <!-- NAVBAR -->
+  <header class="navbar-header">
+    <nav class="navbar container">
+      <!-- Logo -->
+      <a href="#" class="brand-logo">
+        <span class="logo-title">HACKER HOUSE GOA</span>
+        <span class="logo-subtitle">BUILDER ID BADGE 2026</span>
+      </a>
+
+      <!-- Mobile Hamburger Toggle (Pure CSS) -->
+      <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Toggle Navigation Menu">
+      <label for="nav-toggle" class="nav-toggle-label">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+
+      <!-- Nav Menu -->
+      <ul class="nav-menu">
+        <li><a href="#generator" class="nav-link">BUILDER ID</a></li>
+        <li><a href="#how-it-works" class="nav-link">HOW IT WORKS</a></li>
+        <li><a href="#faq" class="nav-link">FAQ</a></li>
+        <li class="mobile-cta-item">
+          <a href="#generator" class="btn btn-pink btn-nav">CREATE ID</a>
+        </li>
+      </ul>
+
+      <!-- Desktop Header CTA -->
+      <a href="#generator" class="btn btn-pink btn-nav desktop-cta">CREATE ID</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero-section">
+      <!-- Decorative Side Palm Illustrations -->
+      <img src="assets/palm-left.svg" alt="" class="hero-palm palm-left" aria-hidden="true">
+      <img src="assets/palm-right.svg" alt="" class="hero-palm palm-right" aria-hidden="true">
+
+      <div class="container hero-content">
+        <!-- Main Gold Header -->
+        <h1 class="hero-title">HACKER HOUSE GOA 2026</h1>
+        <p class="hero-subtitle">THE OFFICIAL BUILDER ID BADGE</p>
+
+        <!-- Description -->
+        <p class="hero-description">
+          Your official identity for building in paradise. Claim your high-resolution double-sided delegate badge for print verification, residency access, and sharing on X.
+        </p>
+
+        <!-- Event / Location Metadata Badges -->
+        <div class="hero-meta">
+          <span class="meta-item">GOA, INDIA</span>
+          <span class="meta-dot">•</span>
+          <span class="meta-item">OCTOBER 2026</span>
+          <span class="meta-dot">•</span>
+          <span class="meta-item">#FRAMEINGOA</span>
+        </div>
+
+        <!-- Primary Pink CTA -->
+        <div class="hero-action">
+          <a href="#generator" class="btn btn-pink btn-hero">
+            CLAIM YOUR BUILDER ID <span class="btn-arrow">→</span>
+          </a>
+          <div class="hero-trust-badge">
+            <span class="lock-icon">🔒</span> OFFICIAL 2-PAGE PRINT PDF & VERIFICATION QR
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAIN ID CARD GENERATOR SECTION -->
+    <section id="generator" class="generator-section">
+      <div class="container">
+        
+        <!-- Section Title with Waves -->
+        <div class="section-title-wrapper">
+          <img src="assets/waves.svg" alt="" class="title-wave wave-left" aria-hidden="true">
+          <h2 class="section-title">GENERATE YOUR ID</h2>
+          <img src="assets/waves.svg" alt="" class="title-wave wave-right" aria-hidden="true">
+        </div>
+
+        <!-- Stepper Nodes Bar -->
+        <div class="stepper-bar" id="stepperBar">
+          <div class="step-node active" id="node1">01</div>
+          <div class="step-node" id="node2">02</div>
+          <div class="step-node" id="node3">03</div>
+          <div class="step-node" id="node4">04</div>
+        </div>
+
+        <!-- Alert Box -->
+        <div class="alert-box" id="alertBox"></div>
+
+        <!-- STEP 1: BUILDER DETAILS (Name & Title) -->
+        <div class="step-content active" id="stepInfo">
+          <div class="generator-card">
+            <h3 class="card-step-title">01. BUILDER DETAILS</h3>
+            <p class="card-step-desc">Enter your profile information for the front badge overlay.</p>
+
+            <form id="infoForm" onsubmit="return false;">
+              <div class="form-group">
+                <label class="form-label" for="inputName">FULL NAME <span class="req">*</span></label>
+                <input type="text" id="inputName" class="form-input" placeholder="e.g. Alex Rivera" required maxlength="32" />
+                <span class="form-hint">Displayed prominently on the front card</span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="inputTitle">BUILDER TITLE <span class="req">*</span></label>
+                <input type="text" id="inputTitle" class="form-input" placeholder="e.g. AI Systems Architect" required maxlength="36" />
+                <span class="form-hint">e.g. Fullstack Engineer, Rust Wrangler, Protocol Dev</span>
+              </div>
+
+              <!-- Hidden stack field for compatibility -->
+              <input type="hidden" id="inputStack" value="" />
+
+              <button type="button" class="btn btn-pink btn-full" id="btnNextToPhoto">
+                NEXT: UPLOAD PHOTO <span class="btn-arrow">→</span>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- STEP 2: PHOTO UPLOAD -->
+        <div class="step-content" id="stepPhoto">
+          <div class="generator-card">
+            <h3 class="card-step-title">02. UPLOAD YOUR PHOTO</h3>
+            <p class="card-step-desc">Supports JPG, PNG, WEBP & HEIC (Max 10MB). Auto-corrects EXIF camera orientation.</p>
+
+            <div class="dropzone" id="photoDropzone">
+              <div class="dropzone-icon-box">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                  <circle cx="12" cy="13" r="4"/>
+                </svg>
+              </div>
+              <p class="dropzone-text">Drag & drop your photo or <strong>Click to Browse</strong></p>
+              <button type="button" class="btn btn-pink btn-sm" id="btnChoosePhoto">Choose Photo</button>
+              <input type="file" id="photoInput" accept="image/jpeg,image/jpg,image/png,image/webp,image/heic,.jpg,.jpeg,.png,.webp,.heic" style="display: none;" />
+            </div>
+
+            <div class="photo-preview-box" id="previewBox">
+              <img id="photoPreviewImg" class="photo-preview-img" alt="Selected photo preview" />
+              <p id="photoFileName" class="photo-filename"></p>
+            </div>
+
+            <div class="button-row">
+              <button type="button" class="btn btn-gold-outline" id="btnBackToInfo">← BACK</button>
+              <button type="button" class="btn btn-pink" id="btnGenerateID" disabled>GENERATE ID ✨</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: PROCESSING STATE -->
+        <div class="step-content" id="stepProcessing">
+          <div class="generator-card loading-panel">
+            <div class="spinner-gold"></div>
+            <h3 class="loading-status" id="loadingStatus">PROCESSING PHOTO...</h3>
+            <p class="loading-subtext" id="loadingSubtext">Auto-rotating photo orientation and rendering high-res cards...</p>
+          </div>
+        </div>
+
+        <!-- STEP 4: OFFICIAL BADGE PREVIEW & ACTIONS -->
+        <div class="step-content" id="stepPreview">
+          <div class="generator-card preview-card">
+            <h3 class="card-step-title">YOUR OFFICIAL BUILDER ID</h3>
+            <p class="card-step-desc">High-resolution double-sided ID badge ready for print and sharing.</p>
+
+            <!-- Cards Display Grid (Desktop Side-by-Side, Mobile Vertical Stack) -->
+            <div class="cards-preview-grid">
+              <div class="card-preview-wrapper">
+                <div class="card-preview-label">FRONT BADGE // 01</div>
+                <div class="card-box">
+                  <canvas id="frontCanvasPreview"></canvas>
+                </div>
+              </div>
+
+              <div class="card-preview-wrapper">
+                <div class="card-preview-label">BACK BADGE // 02</div>
+                <div class="card-box">
+                  <canvas id="backCanvasPreview"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons Centered -->
+            <div class="actions-layout">
+              <div class="actions-primary-row">
+                <button class="btn btn-pink" id="btnDownloadPDF">
+                  📥 DOWNLOAD PDF
+                </button>
+                <button class="btn btn-pink btn-x" id="btnShareX">
+                  𝕏 SHARE ON X
+                </button>
+              </div>
+              <div class="actions-secondary-row">
+                <button class="btn btn-gold-outline" id="btnEditCard">
+                  ✏️ EDIT DETAILS
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS SECTION -->
+    <section id="how-it-works" class="how-it-works-section">
+      <div class="container">
+        <!-- Section Header with Waves -->
+        <div class="section-title-wrapper">
+          <img src="assets/waves.svg" alt="" class="title-wave wave-left" aria-hidden="true">
+          <h2 class="section-title">HOW TO CLAIM YOUR BADGE</h2>
+          <img src="assets/waves.svg" alt="" class="title-wave wave-right" aria-hidden="true">
+        </div>
+
+        <!-- 5 Steps Grid -->
+        <div class="steps-grid">
+          
+          <!-- Step 1 -->
+          <div class="step-card">
+            <div class="step-badge">1</div>
+            <div class="step-icon-wrapper">
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+            <h3 class="step-title">STEP 01</h3>
+            <p class="step-desc">
+              Type your Full Name and Builder Title for your official Hacker House Goa 2026 delegate badge.
+            </p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="step-card">
+            <div class="step-badge">2</div>
+            <div class="step-icon-wrapper">
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+            </div>
+            <h3 class="step-title">STEP 02</h3>
+            <p class="step-desc">
+              Upload your photo. JPG, PNG, WEBP, and HEIC files are auto-corrected for mobile EXIF orientation.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="step-card">
+            <div class="step-badge">3</div>
+            <div class="step-icon-wrapper">
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"/>
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+              </svg>
+            </div>
+            <h3 class="step-title">STEP 03</h3>
+            <p class="step-desc">
+              High-resolution HTML5 Canvas composites your photo, name, and title cleanly onto the official front badge.
+            </p>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="step-card">
+            <div class="step-badge">4</div>
+            <div class="step-icon-wrapper">
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="12" y1="18" x2="12" y2="12"/>
+                <polyline points="9 15 12 18 15 15"/>
+              </svg>
+            </div>
+            <h3 class="step-title">STEP 04</h3>
+            <p class="step-desc">
+              Export your 2-page 432x540pt edge-to-edge PDF badge containing both Front and Back sides for print.
+            </p>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="step-card">
+            <div class="step-badge">5</div>
+            <div class="step-icon-wrapper">
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                <polyline points="16 6 12 2 8 6"/>
+                <line x1="12" y1="2" x2="12" y2="15"/>
+              </svg>
+            </div>
+            <h3 class="step-title">STEP 05</h3>
+            <p class="step-desc">
+              Share directly on X with #FrameInGOA. Your badge automatically unfurls with OpenGraph metadata.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ SECTION (Using native HTML details & summary) -->
+    <section id="faq" class="faq-section">
+      <div class="container">
+        <!-- Section Header with Waves -->
+        <div class="section-title-wrapper">
+          <img src="assets/waves.svg" alt="" class="title-wave wave-left" aria-hidden="true">
+          <h2 class="section-title">QUESTIONS &amp; ANSWERS</h2>
+          <img src="assets/waves.svg" alt="" class="title-wave wave-right" aria-hidden="true">
+        </div>
+
+        <!-- 6 Questions Grid (2 Columns) -->
+        <div class="faq-grid">
+          
+          <!-- FAQ 01 -->
+          <details class="faq-card" open>
+            <summary class="faq-summary">
+              <div class="faq-icon-circle">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
+                </svg>
+              </div>
+              <span class="faq-question">What is the Hacker House Goa Builder ID?</span>
+              <span class="faq-chevron" aria-hidden="true">▼</span>
+            </summary>
+            <div class="faq-answer">
+              It is your official double-sided delegate badge for Hacker House Goa 2026. It features your photo, name, and builder title on the front, and the permanent event details and verification QR code on the back.
+            </div>
+          </details>
+
+          <!-- FAQ 02 -->
+          <details class="faq-card">
+            <summary class="faq-summary">
+              <div class="faq-icon-circle">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
+              </div>
+              <span class="faq-question">How do I download my 2-page print PDF?</span>
+              <span class="faq-chevron" aria-hidden="true">▼</span>
+            </summary>
+            <div class="faq-answer">
+              Once your ID card is generated, click the "DOWNLOAD PDF" button. The server compiles both Front and Back sides into a single print-ready 2-page PDF file at 432x540pt edge-to-edge.
+            </div>
+          </details>
+
+          <!-- FAQ 03 -->
+          <details class="faq-card">
+            <summary class="faq-summary">
+              <div class="faq-icon-circle">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+                </svg>
+              </div>
+              <span class="faq-question">How does sharing on X (Twitter) work?</span>
+              <span class="faq-chevron" aria-hidden="true">▼</span>
+            </summary>
+            <div class="faq-answer">
+              Clicking "SHARE ON X" creates a share link with OpenGraph metadata and opens X with the hashtag #FrameInGOA. When posted, your front card image unfurls directly in the timeline.
+            </div>
+          </details>
+
+          <!-- FAQ 04 -->
+          <details class="faq-card">
+            <summary class="faq-summary">
+              <div class="faq-icon-circle">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </div>
+              <span class="faq-question">Is my photo processed securely?</span>
+              <span class="faq-chevron" aria-hidden="true">▼</span>
+            </summary>
+            <div class="faq-answer">
+              Yes. Photo processing runs via Sharp image engine to auto-correct mobile camera EXIF orientation and crop to a 1:1 square before compositing onto the official badge artwork.
+            </div>
+          </details>
+
+          <!-- FAQ 05 -->
+          <details class="faq-card">
+            <summary class="faq-summary">
+              <div class="faq-icon-circle">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 20h9"/>
+                  <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                </svg>
+              </div>
+              <span class="faq-question">Can I edit my details after generating?</span>
+              <span class="faq-chevron" aria-hidden="true">▼</span>
+            </summary>
+            <div class="faq-answer">
+              Yes! Click "EDIT DETAILS" beneath your preview cards to return to Step 1 and update your name, title, or photo without losing any inputs.
+            </div>
+          </details>
+
+          <!-- FAQ 06 -->
+          <details class="faq-card">
+            <summary class="faq-summary">
+              <div class="faq-icon-circle">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#f5ce38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+              </div>
+              <span class="faq-question">When and where is the event?</span>
+              <span class="faq-chevron" aria-hidden="true">▼</span>
+            </summary>
+            <div class="faq-answer">
+              GOA, INDIA • OCTOBER 2026. Official residency details are available on https://hhgoa.com/.
+            </div>
+          </details>
+
+    </section>
+
+    <!-- DEVELOPED BY SECTION -->
+    <section class="developed-by-section">
+      <div class="container">
+        <!-- Section Header with Waves -->
+        <div class="section-title-wrapper" style="margin-bottom: 24px;">
+          <img src="assets/waves.svg" alt="" class="title-wave wave-left" aria-hidden="true">
+          <h2 class="section-title">DEVELOPED BY</h2>
+          <img src="assets/waves.svg" alt="" class="title-wave wave-right" aria-hidden="true">
+        </div>
+
+        <!-- Centered Names Row with Dividers -->
+        <div class="developer-names-row">
+          <span class="developer-name-item">Gitanjali Jain</span>
+          <span class="dev-divider" aria-hidden="true">|</span>
+          <span class="developer-name-item">Akshat Shrisant</span>
+          <span class="dev-divider" aria-hidden="true">|</span>
+          <span class="developer-name-item">Prajusha Gangrade</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      
+      <!-- Brand Logo -->
+      <div class="footer-brand">
+        <a href="#" class="brand-logo">
+          <span class="logo-title">HACKER HOUSE GOA</span>
+          <span class="logo-subtitle">BUILDER ID BADGE 2026</span>
+        </a>
+      </div>
+
+      <div class="footer-tagline">
+        <span class="tag-highlight">#FRAMEINGOA</span> LESS NOISE. MORE SIGNAL.
+      </div>
+
+      <!-- Quick Info / About -->
+      <div class="footer-links">
+        <a href="https://hhgoa.com/" target="_blank" rel="noopener" class="footer-url">https://hhgoa.com/</a>
+        <p class="copyright-text">© 2026 Hacker House Goa. All rights reserved.</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
