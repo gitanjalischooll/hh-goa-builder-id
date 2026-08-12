@@ -165,8 +165,10 @@ function validatePhotoFile(file) {
  * Handles file selection for photo upload.
  */
 function handleFileSelect(file) {
+  console.log('[Upload UI] handleFileSelect processing file:', file ? file.name : null, file ? file.type : null, file ? file.size : null);
   const err = validatePhotoFile(file);
   if (err) {
+    console.warn('[Upload UI] Validation failed:', err);
     showAlert(err);
     state.photoFile = null;
     elements.btnGenerateID.disabled = true;
@@ -183,9 +185,13 @@ function handleFileSelect(file) {
   // Render local preview
   const reader = new FileReader();
   reader.onload = (e) => {
+    console.log('[Upload UI] FileReader preview ready');
     elements.photoPreviewImg.src = e.target.result;
     elements.photoFileName.textContent = `${file.name} (${(file.size / (1024 * 1024)).toFixed(2)} MB)`;
     elements.previewBox.style.display = 'block';
+  };
+  reader.onerror = (readerErr) => {
+    console.error('[Upload UI] FileReader failed:', readerErr);
   };
   reader.readAsDataURL(file);
 }
@@ -335,16 +341,20 @@ function initEventListeners() {
 
   // Photo Dropzone & File Picker Events
   if (elements.btnChoosePhoto) {
-    elements.btnChoosePhoto.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (elements.photoInput) elements.photoInput.click();
+    elements.btnChoosePhoto.addEventListener('click', () => {
+      console.log('[Upload UI] Choose Photo label clicked');
+      if (elements.photoInput) elements.photoInput.value = '';
     });
   }
 
   if (elements.photoDropzone) {
     elements.photoDropzone.addEventListener('click', (e) => {
-      if (e.target !== elements.photoInput && e.target !== elements.btnChoosePhoto) {
-        if (elements.photoInput) elements.photoInput.click();
+      if (e.target !== elements.photoInput && e.target !== elements.btnChoosePhoto && !elements.btnChoosePhoto.contains(e.target)) {
+        console.log('[Upload UI] Photo dropzone area clicked');
+        if (elements.photoInput) {
+          elements.photoInput.value = '';
+          elements.photoInput.click();
+        }
       }
     });
 
@@ -361,6 +371,7 @@ function initEventListeners() {
       e.preventDefault();
       elements.photoDropzone.classList.remove('dragover');
       if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        console.log('[Upload UI] File dropped into dropzone:', e.dataTransfer.files[0].name);
         handleFileSelect(e.dataTransfer.files[0]);
       }
     });
@@ -368,10 +379,10 @@ function initEventListeners() {
 
   if (elements.photoInput) {
     elements.photoInput.addEventListener('change', (e) => {
+      console.log('[Upload UI] photoInput change event fired, files:', e.target.files);
       if (e.target.files && e.target.files[0]) {
         handleFileSelect(e.target.files[0]);
       }
-      e.target.value = ''; // Reset value to allow selecting the same file again
     });
   }
 
