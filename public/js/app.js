@@ -313,12 +313,13 @@ async function handleDownloadPDF() {
 }
 
 /**
- * Creates share link via POST /api/create-share-link and opens X Tweet Intent.
+ * Shares the FRONT ID card image to X (Twitter) by uploading it directly via backend API (twitter-api-v2).
+ * Reuses the existing high-quality FRONT card canvas image from the download flow.
  */
 async function handleShareOnX() {
   console.log('[Share] button clicked');
-  if (!state.frontImageBase64 || !state.backImageBase64) {
-    showAlert('Card images are missing. Please re-generate your card.');
+  if (!elements.frontCanvasPreview) {
+    showAlert('Card canvas is missing. Please re-generate your card.');
     return;
   }
 
@@ -327,31 +328,56 @@ async function handleShareOnX() {
 
   const originalText = elements.btnShareX.innerHTML;
   elements.btnShareX.disabled = true;
-  elements.btnShareX.innerHTML = '⏳ Creating Share Link...';
+  elements.btnShareX.innerHTML = '⏳ Posting to X...';
 
   try {
-    const result = await ApiService.createShareLink(state.frontImageBase64, state.backImageBase64);
-    if (!result || !result.shareUrl) {
-      throw new Error('Invalid share URL returned by server.');
+    // 1. Export high-quality FRONT card image from existing preview canvas (reusing existing download flow image!)
+    const frontJpgDataUrl = elements.frontCanvasPreview.toDataURL('image/jpeg', 0.95);
+
+    // 2. Create ephemeral share link so page URL exists if needed
+    let cardId = '';
+    if (state.frontImageBase64 && state.backImageBase64) {
+      try {
+        const shareResult = await ApiService.createShareLink(state.frontImageBase64, state.backImageBase64);
+        if (shareResult && shareResult.cardId) {
+          cardId = shareResult.cardId;
+          state.shareUrl = shareResult.shareUrl;
+        }
+      } catch (shareLinkErr) {
+        console.warn('[Share] Share link creation warning:', shareLinkErr.message);
+      }
     }
-    state.shareUrl = result.shareUrl;
 
-    // Build Twitter Tweet Intent text with EXACT required hashtag #FrameInGOA
-    const tweetText = 'Just claimed my official Hacker House Goa 2026 Builder ID! #FrameInGOA';
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(state.shareUrl)}`;
+    // 3. Post to X via backend media API using twitter-api-v2
+    console.log('[Share] Uploading image and posting to X via backend...');
+    const result = await ApiService.postToX(frontJpgDataUrl, cardId);
 
-    console.log('[Share] opening X');
-    if (shareWin && !shareWin.closed) {
-      shareWin.location.href = twitterUrl;
+    if (result && result.tweetUrl) {
+      console.log('[Share] Tweet created successfully! Opening tweet:', result.tweetUrl);
+      if (shareWin && !shareWin.closed) {
+        shareWin.location.href = result.tweetUrl;
+      } else {
+        window.open(result.tweetUrl, '_blank', 'noopener,noreferrer');
+      }
+      showAlert('✨ Successfully posted your Builder ID card directly to X!');
     } else {
-      window.open(twitterUrl, '_blank', 'noopener,noreferrer');
+      throw new Error('Invalid tweet URL returned by server.');
     }
   } catch (err) {
+    console.error('[Share] Backend X posting error:', err.message);
+
+    // Safe fallback to Web Tweet Intent with share link if backend posting fails or credentials aren't set
+    const tweetText = 'Just claimed my official Hacker House Goa 2026 Builder ID! #FrameInGOA';
+    const fallbackShareUrl = state.shareUrl || window.location.href;
+    const twitterIntentUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(fallbackShareUrl)}`;
+
     if (shareWin && !shareWin.closed) {
-      shareWin.close();
+      shareWin.location.href = twitterIntentUrl;
+    } else {
+      window.open(twitterIntentUrl, '_blank', 'noopener,noreferrer');
     }
-    console.error('[Share] Share link creation error:', err);
-    showAlert(`Share Link Error: ${err.message}`);
+
+    showAlert(`Note: ${err.message}. Opened X Web Intent fallback.`);
   } finally {
     elements.btnShareX.disabled = false;
     elements.btnShareX.innerHTML = originalText;

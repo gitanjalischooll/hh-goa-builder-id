@@ -156,4 +156,38 @@ window.ApiService = class ApiService {
 
     return data;
   }
+
+  /**
+   * Post FRONT ID card image directly to X (Twitter) with attached media via backend API.
+   *
+   * @param {string} frontImageBase64
+   * @param {string} [cardId]
+   * @returns {Promise<{ success: boolean, tweetId: string, tweetUrl: string }>}
+   */
+  static async postToX(frontImageBase64, cardId = '') {
+    console.log('[X API] Calling POST', `${API_BASE}/api/share-to-x`);
+    const res = await fetch(`${API_BASE}/api/share-to-x`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        frontImageBase64,
+        cardId,
+      }),
+    });
+
+    console.log('[X API] Response status:', res.status);
+    const responseText = await res.text();
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch (parseErr) {
+      throw new Error(`Server returned HTTP ${res.status}: ${responseText.slice(0, 150) || res.statusText}`);
+    }
+
+    if (!res.ok || !data.success) {
+      throw new Error(data.error || `Posting to X failed (HTTP ${res.status})`);
+    }
+
+    return data;
+  }
 }

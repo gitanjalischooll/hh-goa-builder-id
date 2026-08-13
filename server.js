@@ -28,6 +28,7 @@ const sharp = require('sharp');
 const PDFDocument = require('pdfkit');
 const QRCode = require('qrcode');
 const { v4: uuidv4 } = require('uuid');
+const { TwitterApi } = require('twitter-api-v2');
 
 const app = express();
 
@@ -467,6 +468,77 @@ app.get(
     res.setHeader('Content-Type', 'image/png');
     res.setHeader('Cache-Control', 'public, max-age=3600');
     return res.send(buffer);
+  })
+);
+
+// Helper to initialize TwitterApi client with OAuth 1.0a User Context
+function getTwitterClient() {
+  const { X_API_KEY, X_API_SECRET, X_ACCESS_TOKEN, X_ACCESS_SECRET } = process.env;
+  if (!X_API_KEY || !X_API_SECRET || !X_ACCESS_TOKEN || !X_ACCESS_SECRET) {
+    return null;
+  }
+  return new TwitterApi({
+    appKey: X_API_KEY,
+    appSecret: X_API_SECRET,
+    accessToken: X_ACCESS_TOKEN,
+    accessSecret: X_ACCESS_SECRET,
+  });
+}
+
+// ============================================================================
+// H. POST /api/share-to-x
+//    Uploads the FRONT ID card image directly to X using twitter-api-v2 and
+//    creates a tweet with the image attached and hashtag #FrameInGOA.
+// ============================================================================
+app.post(
+  '/api/share-to-x',
+  asyncHandler(async (req, res) => {
+    const { frontImageBase64, cardId } = req.body || {};
+
+    if (!frontImageBase64) {
+      return res.status(400).json({
+        success: false,
+        error: 'Missing required "frontImageBase64" parameter.',
+      });
+    }
+
+    const twitterClient = getTwitterClient();
+    if (!twitterClient) {
+      return res.status(503).json({
+        success: false,
+        error: 'X API credentials are not configured on the server.',
+      });
+    }
+
+    const imageBuffer = base64ToBuffer(frontImageBase64);
+
+    // 1. Upload media buffer to X via OAuth 1.0a
+    console.log('[X API] Uploading FRONT ID card media buffer (size: %d bytes)...', imageBuffer.length);
+    const mediaId = await twitterClient.v1.uploadMedia(imageBuffer, { mimeType: 'image/jpeg' });
+    console.log('[X API] Media uploaded successfully, media_id:', mediaId);
+
+    // 2. Build Tweet text with share link if available
+    let tweetText = 'Just claimed my official Hacker House Goa 2026 Builder ID! #FrameInGOA';
+    if (cardId) {
+      const baseUrl = getBaseUrl(req);
+      tweetText += `\n${baseUrl}/share/${cardId}`;
+    }
+
+    // 3. Post Tweet with attached media ID
+    console.log('[X API] Posting Tweet with media attachment...');
+    const tweet = await twitterClient.v2.tweet({
+      text: tweetText,
+      media: { media_ids: [mediaId] },
+    });
+
+    console.log('[X API] Tweet posted successfully! Tweet ID:', tweet.data.id);
+    const tweetUrl = `https://twitter.com/i/status/${tweet.data.id}`;
+
+    return res.json({
+      success: true,
+      tweetId: tweet.data.id,
+      tweetUrl,
+    });
   })
 );
 
