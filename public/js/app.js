@@ -489,6 +489,14 @@ function initEventListeners() {
   if (elements.btnShareX) {
     elements.btnShareX.addEventListener('click', handleShareOnX);
   }
+
+  // Mobile Nav Menu auto-close on link click
+  document.querySelectorAll('.nav-link, .mobile-cta-item a').forEach((link) => {
+    link.addEventListener('click', () => {
+      const toggle = document.getElementById('nav-toggle');
+      if (toggle) toggle.checked = false;
+    });
+  });
 }
 
 // Check Backend Health on App Boot

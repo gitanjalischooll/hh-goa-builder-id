@@ -55,6 +55,9 @@ const PDF_PAGE = { width: 432, height: 540 }; // pt — matches 1080x1350 (4:5) 
 const ALLOWED_ORIGIN_PATTERNS = [
   /^https?:\/\/localhost(:\d+)?$/,
   /^https?:\/\/127\.0\.0\.1(:\d+)?$/,
+  /^https?:\/\/10\.\d{1,3}\.\d{1,3}\.\d{1,3}(:\d+)?$/,
+  /^https?:\/\/192\.168\.\d{1,3}\.\d{1,3}(:\d+)?$/,
+  /^https?:\/\/172\.(1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3}(:\d+)?$/,
   /^https:\/\/([a-z0-9-]+\.)*vercel\.app$/,
   /^https:\/\/([a-z0-9-]+\.)*netlify\.app$/,
   /^https:\/\/([a-z0-9-]+\.)*onrender\.com$/,
@@ -592,8 +595,8 @@ app.use((err, req, res, next) => {
 // SERVER BOOTSTRAP
 // ----------------------------------------------------------------------------
 if (require.main === module) {
-  app.listen(PORT, () => {
-    console.log(`🏝️  HH Goa 2026 Builder ID backend running on port ${PORT}`);
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`🏝️  HH Goa 2026 Builder ID backend running on 0.0.0.0:${PORT}`);
     console.log(`    Base URL: ${BASE_URL || '(derived per-request from Host header)'}`);
   });
 }
