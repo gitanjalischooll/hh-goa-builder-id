@@ -18,9 +18,11 @@ const CARD_HEIGHT = 1240;
 function loadImage(src) {
   return new Promise((resolve, reject) => {
     const img = new Image();
-    img.crossOrigin = 'anonymous';
+    if (src && !src.startsWith('data:')) {
+      img.crossOrigin = 'anonymous';
+    }
     img.onload = () => resolve(img);
-    img.onerror = (err) => reject(new Error(`Failed to load image asset: ${src}`));
+    img.onerror = (err) => reject(new Error(`Failed to load image asset: ${src ? src.slice(0, 50) : src}`));
     img.src = src;
   });
 }

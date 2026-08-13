@@ -95,14 +95,19 @@ window.ApiService = class ApiService {
     });
 
     if (!res.ok) {
-      let errorMsg = 'PDF generation failed';
+      let errorMsg = `PDF generation failed (${res.status})`;
       try {
-        const errJson = await res.json();
-        errorMsg = errJson.error || errorMsg;
+        const text = await res.text();
+        try {
+          const errJson = JSON.parse(text);
+          errorMsg = errJson.error || errorMsg;
+        } catch (jsonErr) {
+          errorMsg = text.slice(0, 100) || errorMsg;
+        }
       } catch (e) {
-        /* fallback to status */
+        /* fallback */
       }
-      throw new Error(`${errorMsg} (${res.status})`);
+      throw new Error(errorMsg);
     }
 
     const blob = await res.blob();
@@ -113,7 +118,7 @@ window.ApiService = class ApiService {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    URL.revokeObjectURL(downloadUrl);
+    setTimeout(() => URL.revokeObjectURL(downloadUrl), 10000);
   }
 
   /**
@@ -124,6 +129,7 @@ window.ApiService = class ApiService {
    * @returns {Promise<{ success: boolean, cardId: string, shareUrl: string }>}
    */
   static async createShareLink(frontImageBase64, backImageBase64) {
+    console.log('[Share] creating share link via POST', `${API_BASE}/api/create-share-link`);
     const res = await fetch(`${API_BASE}/api/create-share-link`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -133,9 +139,19 @@ window.ApiService = class ApiService {
       }),
     });
 
-    const data = await res.json();
+    console.log('[Share] API response status:', res.status);
+    const responseText = await res.text();
+    console.log('[Share] API response body:', responseText.length > 300 ? responseText.slice(0, 300) + '...' : responseText);
+
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch (parseErr) {
+      throw new Error(`Server returned HTTP ${res.status}: ${responseText.slice(0, 150) || res.statusText}`);
+    }
+
     if (!res.ok || !data.success) {
-      throw new Error(data.error || `Share link creation failed (${res.status})`);
+      throw new Error(data.error || `Share link creation failed (HTTP ${res.status})`);
     }
 
     return data;

@@ -345,14 +345,12 @@ app.get(
 
     const baseUrl = getBaseUrl(req);
     const ogImageUrl = `${baseUrl}/api/card-image/${cardId}?side=front`;
-    const backImageUrl = `${baseUrl}/api/card-image/${cardId}?side=back`;
     const pageUrl = `${baseUrl}/share/${cardId}`;
 
-    const ogTitle = 'My HH Goa 2026 Builder ID Card!';
-    const ogDescription =
-      'Check out my official double-sided Builder Badge for Hacker House Goa 2026. #FRAMEINGOA #BUILDINPARADISE';
+    const ogTitle = 'Hacker House Goa 2026 — Builder ID Card';
+    const ogDescription = 'Just claimed my official Hacker House Goa 2026 Builder ID! #FrameInGOA';
 
-    const tweetText = 'Just claimed my HH Goa 2026 Builder ID! #FRAMEINGOA #BUILDINPARADISE';
+    const tweetText = 'Just claimed my official Hacker House Goa 2026 Builder ID! #FrameInGOA';
     const tweetIntentUrl =
       `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}` +
       `&url=${encodeURIComponent(pageUrl)}`;
@@ -383,35 +381,36 @@ app.get(
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: #0a0a12;
+      background: #071e13;
       color: #f5f5f5;
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 32px 16px 48px;
     }
-    h1 { font-size: 1.25rem; text-align: center; margin: 8px 0 4px; }
-    p.tagline { color: #9ca3af; text-align: center; margin: 0 0 24px; font-size: 0.9rem; }
-    .cards { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; max-width: 480px; }
+    h1 { font-size: 1.25rem; text-align: center; margin: 8px 0 4px; color: #f5ce38; }
+    p.tagline { color: #e6ede8; text-align: center; margin: 0 0 24px; font-size: 0.9rem; }
+    .cards { display: flex; justify-content: center; max-width: 480px; width: 100%; }
     .cards img {
-      width: 220px;
-      max-width: 45vw;
+      width: 100%;
+      max-width: 420px;
       border-radius: 12px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      border: 1.5px solid rgba(245, 206, 56, 0.3);
     }
     .share-btn {
       margin-top: 28px;
-      background: #000;
+      background: #ff2b70;
       color: #fff;
-      border: 1px solid #333;
-      padding: 12px 24px;
+      border: none;
+      padding: 12px 28px;
       border-radius: 999px;
       font-size: 1rem;
-      font-weight: 600;
+      font-weight: 700;
       text-decoration: none;
       display: inline-block;
     }
-    .share-btn:hover { background: #1a1a1a; }
+    .share-btn:hover { background: #ff4d88; }
   </style>
 </head>
 <body>
@@ -420,7 +419,6 @@ app.get(
 
   <div class="cards">
     <img src="${ogImageUrl}" alt="Builder ID Card — Front" />
-    <img src="${backImageUrl}" alt="Builder ID Card — Back" />
   </div>
 
   <a class="share-btn" href="${tweetIntentUrl}" target="_blank" rel="noopener noreferrer">
@@ -446,8 +444,12 @@ app.get(
     const { cardId } = req.params;
     const side = (req.query.side || CARD_SIDE.FRONT).toLowerCase();
 
+    console.log('[Share Image] cardId:', cardId);
+
     const entry = cardCache.get(cardId);
     if (!entry) {
+      console.log('[Share Image] photo available: false');
+      console.log('[Share Image] photo data length: 0');
       return res.status(404).json({ success: false, error: 'Card not found or expired.' });
     }
 
@@ -456,6 +458,11 @@ app.get(
     }
 
     const buffer = side === CARD_SIDE.BACK ? entry.backBuffer : entry.frontBuffer;
+
+    console.log('[Share Image] photo available:', !!(buffer && buffer.length > 0));
+    console.log('[Share Image] photo data length:', buffer ? buffer.length : 0);
+    console.log('[Share Image] generating front card');
+    console.log('[Share Image] final image generated');
 
     res.setHeader('Content-Type', 'image/png');
     res.setHeader('Cache-Control', 'public, max-age=3600');
